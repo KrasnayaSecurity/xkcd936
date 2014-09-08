@@ -1,20 +1,20 @@
 #!/usr/bin/python
 import itertools
 from lib.wordList import words
-########################################
-#   Configuration                      #
-########################################
-#maxLen = 4
-
-########################################
+import time
+import sys
 
 maxLen = input("What is the maximum number of words that you would like in the string? ")
-printFile = raw_input("Print a wordlist to file? (y/n) ")
+printFile = 'a'
+password = 'a'
+while (printFile != 'y') and (printFile != 'n'):
+	printFile = raw_input("Print a wordlist to file? (y/n) ")
 
 if printFile == 'n':
-	raw_input("Enter an XKCD 936 compliant password to match: ")
+	password = raw_input("Enter an XKCD 936 compliant password to match: ")
 
-for l in range(1,maxLen):
+start = time.time()
+for l in range(1,maxLen+1):
 	combo = itertools.permutations(words, l)
 	for i in combo:
 		if printFile == 'y':
@@ -22,4 +22,7 @@ for l in range(1,maxLen):
 			file.write(''.join(i)+'\n')
 			file.close()
 		else:
-			print "".join(i)+'\n'
+			word = "".join(i)
+			if password == word:
+				print "The password \""+ word +"\" was found.  Elapsed time: "+ str(time.time() - start)
+				sys.exit()
